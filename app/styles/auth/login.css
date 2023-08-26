@@ -1,0 +1,75 @@
+/* .container,
+.content {
+  @apply flex flex-col justify-center items-center;
+}
+
+.content {
+  @apply p-4 bg-primary-color-200 rounded shadow-md w-2/6 max-w-full;
+}
+
+/* @media print, (min-width: 640px) {
+  .content {
+    padding: 2rem;
+    border-radius: 8px;
+  }
+} */
+
+/* fieldset {
+  @apply flex justify-center;
+}
+
+fieldset > :not(:last-child) {
+  @apply mr-8;
+}
+
+.links ul {
+  @apply mt-4 p-0 list-none flex gap-6 items-center;
+}
+
+.links a:hover {
+  @apply decoration-wavy decoration-1;
+} */
+
+#login-form {
+  @apply flex flex-col justify-center items-center max-w-lg my-12 mx-auto p-8 rounded-md bg-primary-color-100 shadow-sm;
+}
+#login-form h1 {
+  @apply text-secondary-color-600 mb-2;
+}
+#login-form label,
+#login-form input,
+#login-form textarea {
+  @apply block text-center;
+}
+
+#login-form label {
+  @apply mb-2 text-primary-color-500 font-bold;
+}
+
+#login-form input,
+#login-form textarea {
+  @apply w-full py-2 px-1 mb-2 bg-primary-color-200 border-none rounded-sm text-primary-color-800;
+}
+
+.form-actions {
+  @apply text-center;
+}
+
+.form-actions button {
+  @apply cursor-pointer mt-2 py-3 px-8 border-none rounded-xl bg-primary-color-200 text-primary-color-700 font-bold text-base;
+}
+
+.form-actions button:hover {
+  @apply bg-primary-color-200;
+}
+
+.form-actions button:disabled {
+  @apply bg-primary-color-200 text-primary-color-300 cursor-not-allowed;
+}
+
+.form-group p {
+  @apply text-red-600 my-1;
+}
+#form-error-message {
+  @apply text-red-600 my-1;
+}
