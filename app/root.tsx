@@ -1,6 +1,7 @@
 import { cssBundleHref } from "@remix-run/css-bundle";
 import stylesheet from "~/tailwind.css";
 import type { LinksFunction } from "@remix-run/node";
+import MainHeader from "./components/navigation/MainHeader";
 import {
   Links,
   LiveReload,
@@ -26,6 +27,7 @@ export default function App() {
         <Links />
       </head>
       <body>
+        <MainHeader />
         <Outlet />
         <ScrollRestoration />
         <Scripts />

@@ -1,0 +1,43 @@
+#main-header {
+  @apply py-4 px-[10%] grid grid-cols-[35%,30%,35%] justify-center items-center justify-items-center;
+}
+#main-header ul {
+  @apply flex gap-8 flex-1;
+}
+#logo {
+  @apply text-primary-color-10 text-lg justify-self-start;
+}
+#logo a {
+  @apply text-inherit;
+}
+#main-nav a {
+  @apply text-primary-color-100 capitalize font-semibold;
+}
+
+#main-nav a:hover,
+#main-nav a.active {
+  @apply text-primary-color-10;
+}
+.auth {
+  @apply font-semibold cursor-pointer shadow-sm py-2 px-8 text-primary-color-10 bg-primary-color-500 rounded-3xl border-none inline-flex gap-2 items-center;
+}
+
+.auth:hover {
+  @apply bg-secondary-color-600;
+}
+
+#auth-nav {
+  @apply justify-self-end;
+}
+
+#auth-nav ul {
+  @apply gap-0;
+}
+
+.auth-alt {
+  @apply bg-transparent text-primary-color-10 border-none cursor-pointer;
+}
+
+.auth-alt:hover {
+  @apply text-primary-color-100;
+}

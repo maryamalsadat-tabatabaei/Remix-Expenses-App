@@ -1,4 +1,5 @@
 @import "./styles/auth/login.css";
+@import "./styles/shared/shared.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -44,6 +45,9 @@
   }
   body {
     @apply bg-[radial-gradient(ellipse_at_top,_var(--color-primary-400),_var(--color-primary-100))] min-h-screen  scroll-smooth;
+  }
+  main {
+    @apply my-8 mx-auto max-w-2xl;
   }
   .error {
     @apply max-w-sm my-16 mx-auto p-8 text-center bg-secondary-color-100 shadow-md rounded-lg;
