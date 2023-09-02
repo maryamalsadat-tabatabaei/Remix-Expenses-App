@@ -1,7 +1,6 @@
-import { cssBundleHref } from "@remix-run/css-bundle";
-import stylesheet from "~/tailwind.css";
+import tailwindStylesUrl from "~/tailwind.css";
+import globalStylesUrl from "~/styles/shared.css";
 import type { LinksFunction, V2_MetaFunction } from "@remix-run/node";
-import MainHeader from "./components/navigation/MainHeader";
 import {
   Links,
   LiveReload,
@@ -13,32 +12,34 @@ import {
 } from "@remix-run/react";
 import type { PropsWithChildren } from "react";
 import { FaExclamationCircle } from "react-icons/fa";
-// export const links: LinksFunction = () => [
-//   { rel: "stylesheet", href: globalStylesUrl },
-//   {
-//     rel: "stylesheet",
-//     href: globalMediumStylesUrl,
-//     media: "print, (min-width: 640px)",
-//   },
-//   {
-//     rel: "stylesheet",
-//     href: globalLargeStylesUrl,
-//     media: "screen and (min-width: 1024px)",
-//   },
-// ];
+export const links: LinksFunction = () => [
+  ...[
+    { rel: "stylesheet", href: tailwindStylesUrl },
+    { rel: "stylesheet", href: globalStylesUrl },
+    // {
+    //   rel: "stylesheet",
+    //   href: globalMediumStylesUrl,
+    //   media: "print, (min-width: 640px)",
+    // },
+    // {
+    //   rel: "stylesheet",
+    //   href: globalLargeStylesUrl,
+    //   media: "screen and (min-width: 1024px)",
+    // }
+  ],
+];
 
 export const meta: V2_MetaFunction = () => {
   const description = "Remix expenses app for handling expenses!";
 
   return [
     { name: "description", content: description },
-    { name: "twitter:description", content: description },
     { title: "Remix: So great, it's funny!" },
+    { charset: "utf-8" },
+    { viewport: "width=device-width,initial-scale=1" },
+    { keywords: "Remix,expenses" },
   ];
 };
-export const links: LinksFunction = () => [
-  ...[{ rel: "stylesheet", href: stylesheet }],
-];
 
 function Document({
   children,
@@ -47,17 +48,6 @@ function Document({
   return (
     <html lang="en">
       <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="keywords" content="Remix,jokes" />
-        <meta
-          name="twitter:image"
-          content="https://remix-jokes.lol/social.png"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:creator" content="@remix_run" />
-        <meta name="twitter:site" content="@remix_run" />
-        <meta name="twitter:title" content="Remix Jokes" />
         <Meta />
         {title ? <title>{title}</title> : null}
         <Links />
@@ -74,7 +64,6 @@ function Document({
 export default function App() {
   return (
     <Document>
-      <MainHeader />
       <Outlet />
     </Document>
   );

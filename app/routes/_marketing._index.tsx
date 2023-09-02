@@ -2,16 +2,6 @@ import type { V2_MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { FaArrowRight, FaDollarSign, FaChartBar } from "react-icons/fa";
 
-export const meta: V2_MetaFunction = () => {
-  return [
-    { title: "Remix Expenses App" },
-    {
-      name: "description",
-      content: "This is an expenses app using Remix and Tailwind!",
-    },
-  ];
-};
-
 export default function Index() {
   return (
     <main>
@@ -22,15 +12,15 @@ export default function Index() {
         </header>
         <div className="marketing-content">
           <div className="marketing-image">
-            {/* <img
+            <img
               src="images/expenses-management.jpg"
               alt="A list of expenses."
-            /> */}
+            />
           </div>
           <div className="marketing-explanation">
             <p>Manage your expenses in one central place.</p>
             <p>
-              <Link prefetch="intent" className="cta" to="/expenses">
+              <Link prefetch="intent" className="auth" to="/expenses">
                 <span>Get Started</span>
                 <FaArrowRight />
               </Link>
@@ -49,10 +39,19 @@ export default function Index() {
             patterns.
           </p>
           <div className="marketing-image">
-            {/* <img src="images/expenses-chart.jpg" alt="A demo bar chart." /> */}
+            <img src="images/expenses-chart.jpg" alt="A demo bar chart." />
           </div>
         </div>
       </section>
     </main>
   );
 }
+export const meta: V2_MetaFunction = () => {
+  return [
+    { title: "Remix Expenses App" },
+    {
+      name: "description",
+      content: "This is an expenses app using Remix and Tailwind!",
+    },
+  ];
+};

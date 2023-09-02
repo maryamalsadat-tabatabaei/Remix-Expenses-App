@@ -1,3 +1,39 @@
+body {
+  @apply bg-[radial-gradient(ellipse_at_top,_var(--color-primary-300),_var(--color-primary-800))] min-h-screen  scroll-smooth;
+}
+main {
+  @apply my-8 mx-auto max-w-2xl;
+}
+.modal-backdrop {
+  @apply fixed top-0 left-0 w-full h-screen bg-black/75;
+}
+.modal {
+  @apply fixed top-[25vh] w-96 border-none rounded-md bg-gray-color-50 animate-fade-slide-down;
+}
+.error {
+  @apply flex flex-col items-center justify-center max-w-xl my-16 mx-auto p-8 bg-[#692dc3] shadow-md rounded-lg;
+}
+
+.info-message {
+  @apply m-8 text-center text-primary-color-50 text-2xl;
+}
+.error .icon {
+  @apply text-5xl;
+}
+
+.error h1,
+.error h2 {
+  @apply my-2 mx-0 text-base;
+}
+
+.error a {
+  @apply flex gap-4 items-center mt-4 text-primary-color-200 bg-primary-color-10 py-2 px-6 rounded-3xl font-semibold;
+}
+
+.error a:hover {
+  @apply bg-gray-color-100;
+}
+
 #main-header {
   @apply py-4 px-[10%] grid grid-cols-[35%,30%,35%] justify-center items-center justify-items-center;
 }

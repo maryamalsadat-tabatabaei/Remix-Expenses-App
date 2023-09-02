@@ -1,0 +1,56 @@
+#pricing {
+  @apply text-center;
+}
+
+#pricing-plans {
+  @apply w-[50vw] my-12 mx-auto flex justify-center gap-8;
+}
+
+.plan {
+  @apply w-1/2 bg-white rounded-md overflow-hidden shadow-md text-gray-color-500;
+}
+
+.plan header {
+  @apply p-4;
+}
+
+.plan .icon {
+  @apply w-16 h-16 text-2xl flex justify-center items-center text-white border-2 border-white rounded-[50%] my-4 mx-auto;
+}
+
+.plan:first-of-type header {
+  @apply bg-primary-color-200;
+}
+
+.plan:last-of-type header {
+  @apply bg-primary-color-400;
+}
+
+.plan h2,
+.plan p {
+  @apply text-gray-color-10 m-0;
+}
+
+.plan header p {
+  @apply text-sm mt-2;
+}
+
+.plan li {
+  @apply my-4 mx-0;
+}
+
+.plan-content {
+  @apply p-4;
+}
+
+.plan .actions {
+  @apply mx-0 mt-12 mb-6;
+}
+
+.plan a {
+  @apply bg-secondary-color-500 text-gray-color-10 py-3 px-8 rounded-3xl;
+}
+
+.plan a:hover {
+  @apply bg-secondary-color-600;
+}

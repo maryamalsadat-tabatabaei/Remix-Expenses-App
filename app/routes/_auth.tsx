@@ -27,7 +27,7 @@ function validateUrl(url: string) {
   if (urls.includes(url)) {
     return url;
   }
-  return "/jokes";
+  return "/";
 }
 export const action = async ({ request, params }: ActionArgs) => {
   const authMode = params.mode || "login";

@@ -32,20 +32,20 @@ function MainHeader() {
               pricing
             </NavLink>
           </li>
-          <li>
+          {/* <li>
             <NavLink
               to="/expenses"
               className={`${(isActive: boolean) => (isActive ? "active" : "")}`}
             >
               expenses
             </NavLink>
-          </li>
+          </li> */}
         </ul>
       </nav>
       <nav id="auth-nav">
         <ul>
-          {/* <li>
-            { data.user ? (
+          <li>
+            {/* { data.user ? (
               <div className="user-info">
                 <span>{`Hi ${data.user.username || "Welcome"}`}</span>
                 <form action="/logout" method="post">
@@ -58,8 +58,11 @@ function MainHeader() {
               <Link to="/login" className="auth">
                 Login
               </Link>
-            )}
-          </li> */}
+            )} */}
+            <Link to="/login" className="auth">
+              Login
+            </Link>
+          </li>
         </ul>
       </nav>
     </header>
