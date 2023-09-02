@@ -1,0 +1,19 @@
+#expenses-actions {
+  @apply my-8 mx-0 flex justify-center gap-4;
+}
+
+#expenses-actions a {
+  @apply flex gap-4 items-center text-primary-color-800 bg-primary-color-10 py-2 px-6 rounded-3xl;
+}
+
+#expenses-actions a:hover {
+  @apply bg-gray-color-100;
+}
+
+#expenses-actions a:last-of-type {
+  @apply bg-transparent text-gray-color-10;
+}
+
+#expenses-actions a:last-of-type:hover {
+  @apply bg-transparent text-gray-color-100;
+}

@@ -22,6 +22,17 @@ export default {
         "secondary-color-400": "var(--color-secondary-400)",
         "secondary-color-500": "var(--color-secondary-500)",
         "secondary-color-600": "var(--color-secondary-600)",
+        "gray-color-10": "var(--color-gray-10)",
+        "gray-color-50": "var(--color-gray-50)",
+        "gray-color-100": "var(--color-gray-100)",
+        "gray-color-200": "var(--color-gray-200)",
+        "gray-color-300": "var(--color-gray-300)",
+        "gray-color-400": "var(--color-gray-400)",
+        "gray-color-500": "var(--color-gray-500)",
+        "gray-color-600": "var(--color-gray-600)",
+        "gray-color-700": "var(--color-gray-700)",
+        "gray-color-800": "var(--color-gray-800)",
+        "gray-color-900": "var(--color-gray-900)",
       },
       fontFamily: {
         roboto: [
@@ -55,10 +66,33 @@ export default {
             opacity: "1",
           },
         },
+        "fade-slide-up": {
+          from: {
+            opacity: "0",
+            transform: "translateY(1rem)",
+          },
+          to: {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+        "fade-slide-down": {
+          from: {
+            opacity: "0",
+            transform: "translateY(-1rem)",
+          },
+          to: {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
       },
+
       animation: {
         "fade-blur-in": "fade-blur-in 1s ease-out forwards",
         "fade-slide-in": "fade-slide-in 1s ease-out forwards",
+        "fade-slide-up": "fade-slide-up 1.5s ease-out forwards",
+        "fade-slide-down": "fade-slide-down 1.5s ease-out forwards",
       },
     },
   },

@@ -1,0 +1,28 @@
+.chart {
+  @apply grid grid-cols-12 justify-center gap-3 p-6 rounded-md border-gray-color-10 border-2;
+}
+
+.chart-bar--inner {
+  @apply flex flex-col justify-end h-40;
+  /* border: 1px solid var(--color-primary-10); */
+}
+
+.chart-bar--fill {
+  @apply text-primary-color-200 rounded-md;
+}
+
+.chart-bar--label {
+  @apply mt-2;
+}
+
+#expense-statistics {
+  @apply grid grid-cols-2 grid-rows-2 gap-8;
+}
+
+#expense-statistics dt {
+  @apply text-primary-color-100;
+}
+
+#expense-statistics dd {
+  @apply text-primary-color-10 text-3xl;
+}

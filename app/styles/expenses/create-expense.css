@@ -1,0 +1,23 @@
+expense-form {
+  @apply p-4;
+}
+
+#expense-form .form-actions {
+  @apply flex-row-reverse justify-start;
+}
+
+#expense-form a {
+  @apply text-gray-color-400;
+}
+
+#expense-form a:hover {
+  @apply text-gray-color-500;
+}
+
+.form-validation-error {
+  @apply text-red-600 my-1 text-left;
+}
+
+/* #form-error-message {
+  @apply text-red-600 my-1;
+} */

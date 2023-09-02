@@ -9,7 +9,7 @@ export const loader = async ({ request }: LoaderArgs) => {
   return json({ user });
 };
 
-function MainHeader() {
+function ExpensesHeader() {
   const data = useLoaderData<typeof loader>();
   return (
     <header id="main-header">
@@ -18,34 +18,27 @@ function MainHeader() {
         <ul>
           <li>
             <NavLink
-              to="/"
-              className={`${(isActive: boolean) => (isActive ? "active" : "")}`}
-            >
-              home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/pricing"
-              className={`${(isActive: boolean) => (isActive ? "active" : "")}`}
-            >
-              pricing
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
               to="/expenses"
+              end
               className={`${(isActive: boolean) => (isActive ? "active" : "")}`}
             >
-              expenses
+              Manage Expenses
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/expenses/analysis"
+              className={`${(isActive: boolean) => (isActive ? "active" : "")}`}
+            >
+              Analyze Expenses
             </NavLink>
           </li>
         </ul>
       </nav>
       <nav id="auth-nav">
         <ul>
-          {/* <li>
-            { data.user ? (
+          <li>
+            {data.user ? (
               <div className="user-info">
                 <span>{`Hi ${data.user.username || "Welcome"}`}</span>
                 <form action="/logout" method="post">
@@ -59,11 +52,11 @@ function MainHeader() {
                 Login
               </Link>
             )}
-          </li> */}
+          </li>
         </ul>
       </nav>
     </header>
   );
 }
 
-export default MainHeader;
+export default ExpensesHeader;

@@ -1,7 +1,9 @@
 import type { ActionArgs } from "@remix-run/node";
+import { useSearchParams } from "@remix-run/react";
 import Login from "./_auth.login";
-// import { db } from "../../utils/db.server";
+import { db } from "./../utils/db.server";
 import { badRequest } from "../utils/request.server";
+import { login, createUserSession, register } from "~/utils/session.server";
 
 export default function AuthPage() {
   return (
@@ -10,9 +12,9 @@ export default function AuthPage() {
     </main>
   );
 }
-function validateUsername(username: string) {
-  if (username.trim().length < 3) {
-    return "Usernames must be at least 3 characters long";
+function validateemail(email: string) {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return "Invalid email address";
   }
 }
 function validatePassword(password: string) {
@@ -27,16 +29,18 @@ function validateUrl(url: string) {
   }
   return "/jokes";
 }
-export const action = async ({ request }: ActionArgs) => {
+export const action = async ({ request, params }: ActionArgs) => {
+  const authMode = params.mode || "login";
   const formSubmission = await request.formData();
-  const { username, password } = Object.fromEntries(formSubmission);
+  const { email, password } = Object.fromEntries(formSubmission);
   const redirectTo = validateUrl(
-    (formSubmission.get("redirectTo") as string) || "/jokes"
+    (formSubmission.get("redirectTo") as string) || "/expenses"
   );
   if (
     // typeof loginType !== "string" ||
     typeof password !== "string" ||
-    typeof username !== "string"
+    typeof email !== "string" ||
+    !email
   ) {
     return badRequest({
       fieldErrors: null,
@@ -44,11 +48,11 @@ export const action = async ({ request }: ActionArgs) => {
       formError: "Form not submitted correctly.",
     });
   }
-  // const fields = { username, password, loginType };
-  const fields = { username, password };
+  // const fields = { email, password, loginType };
+  const fields = { email, password };
   const fieldErrors = {
     password: validatePassword(password),
-    username: validateUsername(username),
+    email: validateemail(email),
   };
   if (Object.values(fieldErrors).some(Boolean)) {
     return badRequest({
@@ -58,42 +62,46 @@ export const action = async ({ request }: ActionArgs) => {
     });
   }
 
-  // switch (loginType) {
-  //   case "login": {
-  //     // login to get the user
-  //     // if there's no user, return the fields and a formError
-  //     // if there is a user, create their session and redirect to /jokes
-  //     return badRequest({
-  //       fieldErrors: null,
-  //       fields,
-  //       formError: "Not implemented",
-  //     });
-  //   }
-  //   case "register": {
-  //     const userExists = await db.user.findFirst({
-  //       where: { username },
-  //     });
-  //     if (userExists) {
-  //       return badRequest({
-  //         fieldErrors: null,
-  //         fields,
-  //         formError: `User with username ${username} already exists`,
-  //       });
-  //     }
-  //     // create the user
-  //     // create their session and redirect to /jokes
-  //     return badRequest({
-  //       fieldErrors: null,
-  //       fields,
-  //       formError: "Not implemented",
-  //     });
-  //   }
-  //   default: {
-  //     return badRequest({
-  //       fieldErrors: null,
-  //       fields,
-  //       formError: "Login type invalid",
-  //     });
-  //   }
-  // }
+  switch (authMode) {
+    case "login": {
+      const user = await login({ email, password });
+
+      if (!user) {
+        return badRequest({
+          fieldErrors: null,
+          fields,
+          formError: `Email/Password combination is incorrect`,
+        });
+      }
+      return createUserSession(user.id, redirectTo);
+    }
+    case "register": {
+      const userExists = await db.user.findFirst({
+        where: { email },
+      });
+      if (userExists) {
+        return badRequest({
+          fieldErrors: null,
+          fields,
+          formError: `User with email ${email} already exists`,
+        });
+      }
+      const user = await register({ email, password });
+      if (!user) {
+        return badRequest({
+          fieldErrors: null,
+          fields,
+          formError: "Something went wrong trying to create a new user.",
+        });
+      }
+      return createUserSession(user.id, redirectTo);
+    }
+    default: {
+      return badRequest({
+        fieldErrors: null,
+        fields,
+        formError: "Login type invalid",
+      });
+    }
+  }
 };

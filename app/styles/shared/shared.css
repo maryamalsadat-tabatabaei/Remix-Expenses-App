@@ -19,7 +19,7 @@
   @apply text-primary-color-10;
 }
 .auth {
-  @apply font-semibold cursor-pointer shadow-sm py-2 px-8 text-primary-color-10 bg-primary-color-500 rounded-3xl border-none inline-flex gap-2 items-center;
+  @apply font-semibold cursor-pointer shadow-sm py-2 px-8 text-primary-color-10 bg-secondary-color-500 rounded-3xl border-none inline-flex gap-2 items-center;
 }
 
 .auth:hover {
@@ -39,5 +39,55 @@
 }
 
 .auth-alt:hover {
+  @apply text-primary-color-100;
+}
+
+.form {
+  @apply p-8 text-gray-color-400;
+}
+
+.form div {
+  @apply mx-auto;
+}
+
+.form label,
+.form input {
+  @apply block mb-2 my-1;
+}
+
+.form input {
+  @apply p-2 rounded-md border-none w-full text-gray-color-600;
+}
+
+.form-row {
+  @apply flex gap-8 text-left;
+}
+
+.form-row div {
+  @apply flex-1;
+}
+
+.form-actions {
+  @apply mt-4 items-center gap-4 flex flex-col;
+}
+
+.form button {
+  @apply bg-secondary-color-500 text-gray-color-50 border-none rounded-3xl py-3 px-8 text-sm;
+}
+
+.form button:hover {
+  @apply bg-secondary-color-600;
+}
+
+.form button:disabled,
+.form button:disabled:hover {
+  @apply bg-gray-color-100 text-gray-color-300 cursor-not-allowed;
+}
+
+.form a {
+  @apply text-base ml-2 text-white;
+}
+
+.form a:hover {
   @apply text-primary-color-100;
 }

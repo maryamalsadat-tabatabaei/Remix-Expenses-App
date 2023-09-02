@@ -1,0 +1,33 @@
+#expenses-list {
+  @apply max-w-lg my-8 mx-auto;
+}
+
+.expense-item {
+  @apply my-6 mx-0 p-4 bg-primary-color-300 rounded-lg flex justify-between items-baseline text-gray-color-10;
+}
+
+.expense-item.locked {
+  @apply text-primary-color-200 justify-center;
+}
+
+.expense-title {
+  @apply m-0;
+}
+
+.expense-amount {
+  @apply m-0;
+}
+
+.expense-actions {
+  @apply flex gap-4 items-center m-0 p-0;
+}
+
+.expense-actions button,
+.expense-actions a {
+  @apply p-0 bg-transparent border-none;
+}
+
+.expense-actions button:hover,
+.expense-actions a:hover {
+  @apply text-primary-color-100;
+}
