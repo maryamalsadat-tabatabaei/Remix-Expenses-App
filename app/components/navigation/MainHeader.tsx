@@ -1,10 +1,12 @@
 import Logo from "../utils/Logo";
 import { NavLink, Link, useLoaderData } from "@remix-run/react";
 import type { User } from "@prisma/client";
+import Dropdown from "../utils/Dropdown";
 
 // type LoaderData = { data: Array<User> };
 function MainHeader() {
   const data = useLoaderData();
+
   return (
     <header id="main-header">
       <Logo />
@@ -33,12 +35,10 @@ function MainHeader() {
           <li>
             {data?.user ? (
               <div className="user-info">
-                <span>{`Hi ${data?.user?.username || "Welcome"}`}</span>
-                <form action="/logout" method="post">
-                  <button type="submit" className="button">
-                    Logout
-                  </button>
-                </form>
+                <Dropdown
+                  profileName={data?.user?.username || "Welcome"}
+                  profilePicture={data?.user?.picture || undefined}
+                />
               </div>
             ) : (
               <Link to="/login" className="auth">

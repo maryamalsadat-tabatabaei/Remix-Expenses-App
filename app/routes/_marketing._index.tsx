@@ -13,7 +13,7 @@ export default function Index() {
         <div className="marketing-content">
           <div className="marketing-image">
             <img
-              src="images/expenses-management.jpg"
+              src="assets/images/expenses-management.jpg"
               alt="A list of expenses."
             />
           </div>
@@ -39,7 +39,10 @@ export default function Index() {
             patterns.
           </p>
           <div className="marketing-image">
-            <img src="images/expenses-chart.jpg" alt="A demo bar chart." />
+            <img
+              src="assets/images/expenses-chart.jpg"
+              alt="A demo bar chart."
+            />
           </div>
         </div>
       </section>

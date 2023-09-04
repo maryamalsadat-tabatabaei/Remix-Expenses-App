@@ -18,6 +18,7 @@ export const loader = async ({ request }: LoaderArgs) => {
   const user = await getUser(request);
   return json({ user });
 };
+
 export function links() {
   return [{ rel: "stylesheet", href: marketingStyles }];
 }

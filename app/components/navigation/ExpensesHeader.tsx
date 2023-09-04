@@ -1,16 +1,11 @@
 import Logo from "../utils/Logo";
 import { NavLink, Link, useLoaderData } from "@remix-run/react";
-import type { LoaderArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { getUser } from "~/utils/session.server";
+import type { User } from "@prisma/client";
+import Dropdown from "../utils/Dropdown";
 
-export const loader = async ({ request }: LoaderArgs) => {
-  const user = await getUser(request);
-  return json({ user });
-};
-
+// type LoaderData = { data: Array<User> };
 function ExpensesHeader() {
-  const data = useLoaderData<typeof loader>();
+  const data = useLoaderData();
   return (
     <header id="main-header">
       <Logo />
@@ -38,14 +33,12 @@ function ExpensesHeader() {
       <nav id="auth-nav">
         <ul>
           <li>
-            {data.user ? (
+            {data?.user ? (
               <div className="user-info">
-                <span>{`Hi ${data.user.username || "Welcome"}`}</span>
-                <form action="/logout" method="post">
-                  <button type="submit" className="button">
-                    Logout
-                  </button>
-                </form>
+                <Dropdown
+                  profileName={data?.user?.username || "Welcome"}
+                  profilePicture={data?.user?.picture || undefined}
+                />
               </div>
             ) : (
               <Link to="/login" className="auth">

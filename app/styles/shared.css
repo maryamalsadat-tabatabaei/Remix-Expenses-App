@@ -37,7 +37,7 @@ main {
 #main-header {
   @apply py-4 px-[10%] grid grid-cols-[35%,30%,35%] justify-center items-center justify-items-center;
 }
-#main-header ul {
+#main-nav > ul {
   @apply flex gap-8 flex-1;
 }
 #logo {
