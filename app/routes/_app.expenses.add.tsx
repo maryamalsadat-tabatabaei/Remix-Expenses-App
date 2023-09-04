@@ -10,7 +10,7 @@ import {
 import styles from "~/styles/expenses/create-expense.css";
 import ExpenseForm from "~/components/expenses/ExpenseForm";
 import Modal from "~/components/utils/Modal";
-import { db } from "~/utils/db.server";
+import db from "~/utils/db.server";
 import { badRequest } from "~/utils/request.server";
 import { getUserId, requireUserId } from "~/utils/session.server";
 

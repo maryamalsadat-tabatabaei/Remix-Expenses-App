@@ -1,16 +1,10 @@
 import Logo from "../utils/Logo";
 import { NavLink, Link, useLoaderData } from "@remix-run/react";
-import type { LoaderArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { getUser } from "~/utils/session.server";
+import type { User } from "@prisma/client";
 
-export const loader = async ({ request }: LoaderArgs) => {
-  const user = await getUser(request);
-  return json({ user });
-};
-
+// type LoaderData = { data: Array<User> };
 function MainHeader() {
-  const data = useLoaderData<typeof loader>();
+  const data = useLoaderData();
   return (
     <header id="main-header">
       <Logo />
@@ -32,22 +26,14 @@ function MainHeader() {
               pricing
             </NavLink>
           </li>
-          {/* <li>
-            <NavLink
-              to="/expenses"
-              className={`${(isActive: boolean) => (isActive ? "active" : "")}`}
-            >
-              expenses
-            </NavLink>
-          </li> */}
         </ul>
       </nav>
       <nav id="auth-nav">
         <ul>
           <li>
-            {/* { data.user ? (
+            {data?.user ? (
               <div className="user-info">
-                <span>{`Hi ${data.user.username || "Welcome"}`}</span>
+                <span>{`Hi ${data?.user?.username || "Welcome"}`}</span>
                 <form action="/logout" method="post">
                   <button type="submit" className="button">
                     Logout
@@ -58,10 +44,7 @@ function MainHeader() {
               <Link to="/login" className="auth">
                 Login
               </Link>
-            )} */}
-            <Link to="/login" className="auth">
-              Login
-            </Link>
+            )}
           </li>
         </ul>
       </nav>

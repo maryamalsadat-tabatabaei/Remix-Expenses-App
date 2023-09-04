@@ -1,4 +1,3 @@
-// /expenses => shared layout
 import { z } from "zod";
 import { json } from "@remix-run/node";
 import {
@@ -9,11 +8,15 @@ import {
   Link,
 } from "@remix-run/react";
 import ExpensesList from "~/components/expenses/ExpensesList";
-import { db } from "~/utils/db.server";
+import db from "~/utils/db.server";
 import { FaPlus, FaDownload } from "react-icons/fa";
 import expensesStyles from "~/styles/expenses/expenses.css";
 
-export const loader = async () => {
+import type { LoaderFunction } from "@remix-run/node";
+import type { Expense, User } from "@prisma/client";
+
+type LoaderData = { randomExpensesListItems: Array<Expense> };
+export const loader: LoaderFunction = async () => {
   const count = await db.expense.count();
   const randomRowNumber = Math.floor(Math.random() * count);
 
@@ -40,7 +43,7 @@ export const loader = async () => {
 // });
 
 export default function ExpensesLayout() {
-  const data = useLoaderData<typeof loader>();
+  const data = useLoaderData<LoaderData>();
   // try {
   //   EspenseData.parse(data);
   // } catch {

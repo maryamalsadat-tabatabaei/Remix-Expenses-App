@@ -1,4 +1,3 @@
-import type { ActionArgs } from "@remix-run/node";
 import {
   Link,
   useSearchParams,
@@ -8,14 +7,12 @@ import {
 import { FaLock, FaUserPlus } from "react-icons/fa";
 
 export default function AuthForm() {
-  const actionData = useActionData<typeof action>();
-
+  const actionData = useActionData();
   const navigation = useNavigation();
   const [searchParams] = useSearchParams();
 
   const authMode = searchParams.get("mode") || "login";
   const isSubmitting = navigation.state === "submitting";
-
   const submitBtnCaption = isSubmitting
     ? "Submitting..."
     : authMode === "login"
@@ -80,8 +77,10 @@ export default function AuthForm() {
         <button disabled={isSubmitting}>{submitBtnCaption}</button>
         <hr />
         <p>
-          {authMode === "login" ? "Haven't Signup?" : "Already signup?"}
-          <Link to={authMode === "login" ? "?mode=signup" : "?mode=login"}>
+          {authMode === "login"
+            ? "New to RemixExpenses?"
+            : "Already have an account?"}
+          <Link to={authMode === "login" ? "?mode=register" : "?mode=login"}>
             {toggleBtnCaption}
           </Link>
         </p>

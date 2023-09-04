@@ -1,8 +1,6 @@
 import type { LinksFunction, V2_MetaFunction } from "@remix-run/node";
 import type { ActionArgs } from "@remix-run/node";
-import { useSearchParams } from "@remix-run/react";
-
-import { db } from "./../utils/db.server";
+import db from "./../utils/db.server";
 import { badRequest } from "../utils/request.server";
 import { login, createUserSession, register } from "~/utils/session.server";
 import AuthForm from "~/components/auth/AuthForm";
@@ -23,18 +21,19 @@ function validatePassword(password: string) {
   }
 }
 function validateUrl(url: string) {
-  const urls = ["/jokes", "/auth", "/", "https://remix.run"];
+  const urls = ["/auth", "/", "/login", "/register"];
   if (urls.includes(url)) {
     return url;
   }
   return "/";
 }
-export const action = async ({ request, params }: ActionArgs) => {
-  const authMode = params.mode || "login";
+export const action = async ({ request }: ActionArgs) => {
+  const url = new URL(request.url);
+  const authMode = url.searchParams.get("mode") || "login";
   const formSubmission = await request.formData();
   const { email, password } = Object.fromEntries(formSubmission);
   const redirectTo = validateUrl(
-    (formSubmission.get("redirectTo") as string) || "/expenses"
+    (formSubmission.get("redirectTo") as string) || "/"
   );
   if (
     // typeof loginType !== "string" ||
@@ -111,8 +110,7 @@ export const meta: V2_MetaFunction = () => {
     "Login to submit your own expenses to Remix expenses App!";
 
   return [
-    { name: "description", content: description },
-    { name: "twitter:description", content: description },
+    { name: "Remix login", content: description },
     { title: "Remix Expenses | Login" },
   ];
 };

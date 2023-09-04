@@ -1,7 +1,7 @@
 import { createCookieSessionStorage, redirect } from "@remix-run/node";
 import bcrypt from "bcryptjs";
 
-import { db } from "./db.server";
+import db from "./db.server";
 
 type LoginForm = {
   email: string;
@@ -38,7 +38,7 @@ if (!sessionSecret) {
 
 const storage = createCookieSessionStorage({
   cookie: {
-    name: "RJ_session",
+    name: "RE_session",
     // normally you want this to be `secure: true`
     // but that doesn't work on localhost for Safari
     // https://web.dev/when-to-use-local-https/
@@ -84,7 +84,7 @@ export async function getUser(request: Request) {
   }
 
   const user = await db.user.findUnique({
-    select: { id: true, username: true },
+    select: { id: true, email: true },
     where: { id: userId },
   });
 
