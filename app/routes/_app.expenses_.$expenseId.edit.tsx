@@ -13,13 +13,25 @@ import db from "~/utils/db.server";
 import { badRequest } from "~/utils/request.server";
 import { getUserId, requireUserId } from "~/utils/session.server";
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async ({ request, params }: LoaderArgs) => {
   const userId = await getUserId(request);
+  const expense = await db.expense.findUnique({
+    where: { id: params.expenseId },
+  });
+  if (!expense) {
+    throw new Response("What a expense! Not found.", {
+      status: 404,
+    });
+  }
   if (!userId) {
     throw new Response("Unauthorized", { status: 401 });
   }
-  return json({});
+  return json({
+    isOwner: userId === expense.userId,
+    expense,
+  });
 };
+
 function validateExpenseTitle(title: string): string | null {
   if (title.length < 10) {
     return "That expense title is too short";
@@ -47,9 +59,31 @@ function validateExpenseDate(date: string): string | null {
   }
   return null;
 }
-export const action = async ({ request }: ActionArgs) => {
-  const userId = await requireUserId(request);
+export const action = async ({ request, params }: ActionArgs) => {
   const formData = await request.formData();
+  if (formData.get("intent") !== "update") {
+    throw new Response(
+      `The intent ${formData.get("intent")} is not supported`,
+      {
+        status: 400,
+      }
+    );
+  }
+  const userId = await requireUserId(request);
+  const expense = await db.expense.findUnique({
+    where: { id: params.expenseId },
+  });
+  if (!expense) {
+    throw new Response("Can't update what does not exist", {
+      status: 404,
+    });
+  }
+  if (expense.userId !== userId) {
+    throw new Response("Pssh, nice try. That's not your expense", {
+      status: 403,
+    });
+  }
+
   const title = formData.get("title") as string;
   const amount = parseFloat(formData.get("amount") as string);
   const date = formData.get("date") as string;
@@ -80,7 +114,8 @@ export const action = async ({ request }: ActionArgs) => {
   }
 
   try {
-    await db.expense.create({
+    await db.expense.update({
+      where: { id: params.expenseId },
       data: {
         title,
         date: new Date(date).toISOString(),
@@ -89,14 +124,14 @@ export const action = async ({ request }: ActionArgs) => {
       },
     });
   } catch (error) {
-    throw new Response("Error creating expense", {
+    throw new Response("Error updating expense", {
       status: 400,
     });
   }
   return redirect(`/expenses`);
 };
 
-export default function AddExpensesPage() {
+export default function EditExpense() {
   const navigate = useNavigate();
   function closeHandler() {
     // navigate programmatically
@@ -105,7 +140,7 @@ export default function AddExpensesPage() {
 
   return (
     <Modal onClose={closeHandler}>
-      <ExpenseForm mode="create" />
+      <ExpenseForm mode="update" />
     </Modal>
   );
 }
@@ -116,7 +151,7 @@ export function ErrorBoundary() {
   if (isRouteErrorResponse(error) && error.status === 401) {
     return (
       <div className="error">
-        <h2>You must be logged in to create an expense.</h2>
+        <h2>You must be logged in to update an expense.</h2>
         <Link to="/login">Login</Link>
       </div>
     );
@@ -124,7 +159,7 @@ export function ErrorBoundary() {
   if (isRouteErrorResponse(error) && error.status === 400) {
     return (
       <div className="error">
-        <h2>Error happened during creating the expense.</h2>
+        <h2>Error happened during updating the expense.</h2>
         <Link to="/expenses">Try again</Link>
       </div>
     );

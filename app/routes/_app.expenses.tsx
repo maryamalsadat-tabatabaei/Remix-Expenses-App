@@ -13,7 +13,7 @@ import { FaPlus, FaDownload } from "react-icons/fa";
 import expensesStyles from "~/styles/expenses/expenses.css";
 
 import type { LoaderFunction } from "@remix-run/node";
-import type { Expense, User } from "@prisma/client";
+import type { Expense } from "@prisma/client";
 
 type LoaderData = { randomExpensesListItems: Array<Expense> };
 export const loader: LoaderFunction = async () => {
@@ -21,7 +21,7 @@ export const loader: LoaderFunction = async () => {
   const randomRowNumber = Math.floor(Math.random() * count);
 
   const randomExpensesListItems = await db.expense.findMany({
-    skip: randomRowNumber,
+    // skip: randomRowNumber,
     orderBy: { createdAt: "desc" },
     select: { id: true, title: true, amount: true },
     take: 5,
