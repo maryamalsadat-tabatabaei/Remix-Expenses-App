@@ -17,3 +17,10 @@
 #expenses-actions a:last-of-type:hover {
   @apply bg-transparent text-gray-color-100;
 }
+#no-expenses {
+  @apply text-center;
+}
+
+#no-expenses a {
+  @apply text-primary-color-100;
+}

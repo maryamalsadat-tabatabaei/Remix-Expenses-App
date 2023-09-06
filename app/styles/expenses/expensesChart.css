@@ -1,5 +1,5 @@
 .chart {
-  @apply grid grid-cols-12 justify-center gap-3 p-6 rounded-md border-gray-color-10 border-2;
+  @apply grid grid-cols-12 justify-center gap-3 p-6 rounded-md border-gray-color-10 border-2 my-6;
 }
 
 .chart-bar--inner {

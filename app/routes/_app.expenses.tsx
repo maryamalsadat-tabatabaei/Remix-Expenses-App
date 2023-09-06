@@ -11,11 +11,11 @@ import ExpensesList from "~/components/expenses/ExpensesList";
 import db from "~/utils/db.server";
 import { FaPlus, FaDownload } from "react-icons/fa";
 import expensesStyles from "~/styles/expenses/expenses.css";
-
 import type { LoaderFunction } from "@remix-run/node";
 import type { Expense } from "@prisma/client";
 
 type LoaderData = { randomExpensesListItems: Array<Expense> };
+
 export const loader: LoaderFunction = async () => {
   const count = await db.expense.count();
   const randomRowNumber = Math.floor(Math.random() * count);
@@ -44,6 +44,7 @@ export const loader: LoaderFunction = async () => {
 
 export default function ExpensesLayout() {
   const data = useLoaderData<LoaderData>();
+  const hasExpenses = data && data.randomExpensesListItems.length > 0;
   // try {
   //   EspenseData.parse(data);
   // } catch {
@@ -64,7 +65,18 @@ export default function ExpensesLayout() {
             <span>Load Raw Data</span>
           </a>
         </section>
-        <ExpensesList expenses={data.randomExpensesListItems} />
+
+        {hasExpenses && (
+          <ExpensesList expenses={data.randomExpensesListItems} />
+        )}
+        {!hasExpenses && (
+          <section id="no-expenses">
+            <h1>No expenses found</h1>
+            <p>
+              Start <Link to="add">adding some</Link> today.
+            </p>
+          </section>
+        )}
       </main>
     </>
   );
@@ -79,12 +91,12 @@ export function ErrorBoundary() {
 
   if (isRouteErrorResponse(error) && error.status === 404) {
     return (
-      <div className="error-container">
+      <div className="error">
         <p>There are no Expenses to display.</p>
         <Link to="new">Add your own</Link>
       </div>
     );
   }
 
-  return <div className="error-container">I did a whoopsies.</div>;
+  return <div className="error">I did a whoopsies.</div>;
 }

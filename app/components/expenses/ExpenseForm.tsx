@@ -105,7 +105,7 @@ export default function ExpenseForm({ mode }: FormProps) {
             ? "Updating..."
             : "Update Expense"}
         </button>
-        <a href="tbd">Cancel</a>
+        <a href=".">Cancel</a>
       </div>
     </Form>
   );

@@ -1,5 +1,5 @@
 body {
-  @apply bg-[radial-gradient(ellipse_at_top,_var(--color-primary-300),_var(--color-primary-800))] min-h-screen  scroll-smooth;
+  @apply bg-[radial-gradient(ellipse_at_top,_var(--color-primary-300),_var(--color-primary-800))] min-h-screen text-gray-color-100 scroll-smooth;
 }
 main {
   @apply my-8 mx-auto max-w-2xl;
@@ -23,7 +23,7 @@ main {
 
 .error h1,
 .error h2 {
-  @apply my-2 mx-0 text-base;
+  @apply my-2 mx-0 text-2xl font-bold;
 }
 
 .error a {

@@ -3,6 +3,7 @@ import globalStylesUrl from "~/styles/shared.css";
 import type { LinksFunction, V2_MetaFunction } from "@remix-run/node";
 import {
   Links,
+  Link,
   LiveReload,
   Meta,
   Outlet,
@@ -11,7 +12,8 @@ import {
   useRouteError,
 } from "@remix-run/react";
 import type { PropsWithChildren } from "react";
-import { FaExclamationCircle } from "react-icons/fa";
+import Error from "./components/utils/Error";
+
 export const links: LinksFunction = () => [
   ...[
     { rel: "stylesheet", href: tailwindStylesUrl },
@@ -72,16 +74,20 @@ export default function App() {
 export function ErrorBoundary() {
   const error = useRouteError();
 
-  const errorMessage = error instanceof Error ? error.message : "Unknown error";
+  const errorMessage =
+    error instanceof Error ? (error as Error).message : "Unknown error";
   return (
-    <Document title="Uh-oh!">
-      <div className="error">
-        <div className="icon">
-          <FaExclamationCircle />
-        </div>
-        <h2>An Error Occured!</h2>
-        <pre>{errorMessage}</pre>
-      </div>
+    <Document title="An error occurred">
+      <main>
+        <Error title="An error occurred">
+          <p>
+            {errorMessage || "Something went wrong. Please try again later."}
+          </p>
+          <p>
+            Back to <Link to="/">Home</Link>.
+          </p>
+        </Error>
+      </main>
     </Document>
   );
 }

@@ -8,13 +8,11 @@ import {
   useParams,
   useRouteError,
   useNavigation,
-  useNavigate,
   Outlet,
+  useFetcher,
 } from "@remix-run/react";
 import db from "~/utils/db.server";
 import { getUserId, requireUserId } from "~/utils/session.server";
-import Modal from "~/components/utils/Modal";
-import ExpenseForm from "~/components/expenses/ExpenseForm";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const { description, title } = data
@@ -44,12 +42,18 @@ export const loader = async ({ params, request }: LoaderArgs) => {
 };
 
 export const action = async ({ params, request }: ActionArgs) => {
-  const form = await request.formData();
-  if (form.get("intent") !== "delete" || form.get("intent") !== "update") {
-    throw new Response(`The intent ${form.get("intent")} is not supported`, {
+  // const form = await request.formData();
+  // if (form.get("intent") !== "delete") {
+  //   throw new Response(`The intent ${form.get("intent")} is not supported`, {
+  //     status: 400,
+  //   });
+  // }
+  if (request.method !== "DELETE") {
+    throw new Response(`The intent ${request.method} is not supported`, {
       status: 400,
     });
   }
+
   const userId = await requireUserId(request);
   const expense = await db.expense.findUnique({
     where: { id: params.expenseId },
@@ -64,39 +68,41 @@ export const action = async ({ params, request }: ActionArgs) => {
       status: 403,
     });
   }
-  if (form.get("intent") === "delete") {
-    await db.expense.delete({ where: { id: params.expenseId } });
-    return redirect("/expenses");
-  } else if (form.get("intent") === "update") {
-    const formData = await request.formData();
-    const title = formData.get("title") as string;
-    const amount = parseFloat(formData.get("amount") as string);
-    const date = formData.get("date") as string;
-    await db.expense.update({
-      where: { id: params.expenseId },
-      data: {
-        title,
-        date: new Date(date).toISOString(),
-        amount: parseFloat(amount.toString()),
-        userId,
-      },
-    });
 
-    return redirect("/expenses");
-  }
+  await db.expense.delete({ where: { id: params.expenseId } });
+  return redirect("/expenses");
 };
 
 export default function ExpenseDetail() {
   const data = useLoaderData<typeof loader>();
   const params = useParams();
   const navigation = useNavigation();
-  const navigate = useNavigate();
   const isSubmitting = Boolean(navigation.state === "submitting");
 
-  function closeHandler() {
-    // navigate programmatically
-    navigate("..");
+  const fetcher = useFetcher();
+  function deleteExpenseItemHandler() {
+    const proceed = confirm("Are you sure? Do you want to delete this item?");
+    // submit(null, {
+    //   method: 'delete',
+    //   action: `/expenses/${id}`,
+    // });
+    if (!proceed) {
+      return;
+    }
+    fetcher.submit(null, {
+      method: "delete",
+      action: `/expenses/${params.expenseId}`,
+    });
   }
+
+  if (fetcher.state !== "idle") {
+    return (
+      <article className="expense-item max-w-lg my-16 mx-auto locked">
+        <p className="text-white">Deleting...</p>
+      </article>
+    );
+  }
+
   return (
     <>
       <article className="expense-item max-w-lg my-16 mx-auto">
@@ -106,32 +112,18 @@ export default function ExpenseDetail() {
         </div>
         {data.isOwner ? (
           <menu className="expense-actions">
-            <Form method="post">
+            <Form method="delete">
               <button
                 className="button"
                 name="intent"
-                type="submit"
+                type="button"
                 value="delete"
                 disabled={isSubmitting}
+                onClick={deleteExpenseItemHandler}
               >
                 {isSubmitting ? "Deleting..." : "Delete Expense"}
               </button>
             </Form>
-            {/* <Modal onClose={closeHandler}>
-            <ExpenseForm mode="update" />
-          </Modal> */}
-            {/* <Form method="post">
-            <button
-              className="button"
-              name="intent"
-              type="submit"
-              value="update"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Updating..." : "Update Expense"}
-            </button>
-          </Form> */}
-            {/* <button onClick={deleteExpenseItemHandler}>Delete</button> */}
             <a href={params.expenseId + "/edit"}>Update Expense</a>
           </menu>
         ) : null}

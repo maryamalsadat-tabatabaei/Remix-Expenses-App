@@ -1,4 +1,4 @@
-import { Link, Path } from "@remix-run/react";
+import { Link, Path, useFetcher } from "@remix-run/react";
 
 type Expense = {
   title: String;
@@ -7,10 +7,6 @@ type Expense = {
 };
 
 function ExpenseListItem({ title, amount, id }: Expense) {
-  function deleteExpenseItemHandler() {
-    // tbd
-  }
-
   return (
     <article className="expense-item">
       <div>
