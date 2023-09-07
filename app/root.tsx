@@ -1,6 +1,11 @@
 import tailwindStylesUrl from "~/tailwind.css";
 import globalStylesUrl from "~/styles/shared.css";
-import type { LinksFunction, V2_MetaFunction } from "@remix-run/node";
+import {
+  json,
+  type LinksFunction,
+  type V2_MetaFunction,
+  type LoaderArgs,
+} from "@remix-run/node";
 import {
   Links,
   Link,
@@ -10,9 +15,13 @@ import {
   Scripts,
   ScrollRestoration,
   useRouteError,
+  useNavigate,
+  useLoaderData,
 } from "@remix-run/react";
 import type { PropsWithChildren } from "react";
 import Error from "./components/utils/Error";
+import useInactivityTimer from "./components/hooks/useInactivityTimer";
+import { getUserId } from "~/utils/session.server";
 
 export const links: LinksFunction = () => [
   ...[
@@ -63,7 +72,29 @@ function Document({
     </html>
   );
 }
+export const loader = async ({ request }: LoaderArgs) => {
+  const userId = await getUserId(request);
+  return json({ userId });
+};
+
 export default function App() {
+  const data = useLoaderData();
+  const navigate = useNavigate();
+  const logoutHandler = async () => {
+    if (data.userId === null) {
+      return;
+    }
+    await fetch("/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    navigate("/login");
+  };
+
+  useInactivityTimer(20000, logoutHandler);
+
   return (
     <Document>
       <Outlet />
@@ -83,9 +114,8 @@ export function ErrorBoundary() {
           <p>
             {errorMessage || "Something went wrong. Please try again later."}
           </p>
-          <p>
-            Back to <Link to="/">Home</Link>.
-          </p>
+
+          <Link to="/">Home</Link>
         </Error>
       </main>
     </Document>
