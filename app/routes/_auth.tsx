@@ -1,11 +1,18 @@
 import { Outlet } from "@remix-run/react";
-import MainHeader from "~/components/navigation/MainHeader";
+import AuthHeader from "~/components/navigation/AuthHeader";
 
 export default function AuthPage() {
   return (
     <>
-      <MainHeader />
-      <Outlet />;
+      <AuthHeader />
+      <div className="flex flex-row gap-1 ">
+        <Outlet />
+        <img
+          src="assets/images/signup.svg"
+          alt="Login svg"
+          className="h-96 self-end shadow-sm"
+        />
+      </div>
     </>
   );
 }

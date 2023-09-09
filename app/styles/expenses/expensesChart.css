@@ -3,12 +3,11 @@
 }
 
 .chart-bar--inner {
-  @apply flex flex-col justify-end h-40;
-  /* border: 1px solid var(--color-primary-10); */
+  @apply flex flex-col justify-end h-40 border-primary-color-10;
 }
 
 .chart-bar--fill {
-  @apply text-primary-color-200 rounded-md;
+  @apply bg-primary-color-200 rounded-md;
 }
 
 .chart-bar--label {

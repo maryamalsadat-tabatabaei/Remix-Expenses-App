@@ -93,7 +93,7 @@ export default function App() {
     navigate("/login");
   };
 
-  useInactivityTimer(20000, logoutHandler);
+  useInactivityTimer(10000000, logoutHandler);
 
   return (
     <Document>
